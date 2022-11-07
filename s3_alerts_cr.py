@@ -132,10 +132,16 @@ while start_date <= end_date:
             row['full_text'] = full_text
             # df['full_text'].append(full_text)
             print(start_time)
-            row['start_time'] = start_time
+            try:
+                row['start_time'] = datetime.datetime.fromtimestamp(start_time)
+            except:
+                print("An exception occurred")
             # df['start_time'].append(start_time)
             print(end_time)
-            row['end_time'] = end_time
+            try:
+                row['end_time'] = datetime.datetime.fromtimestamp(end_time)
+            except:
+                print("An exception occurred")
             if "late" or "behind schedule" in full_text.lower():
                 # might want to add a set of delay range in the alert
                 reasons_set = set()
@@ -144,7 +150,18 @@ while start_date <= end_date:
                         reasons_set.add(reason)
                 print(reasons_set)
                 row['reasons_set'] = str(reasons_set)
+                row['reasons_set'] = row['reasons_set'].replace('set()', 'None') 
+                #row[['reason_1','reason_2']]=row['reasons_set'].str.split(',',expand=True)
+                
+                #expand = row['reasons_set'].apply(pd.Series)
+                #row = row.append(expand)
+                #row = pd.DataFrame(row['reasons_set'].tolist()).add_prefix('reason_') # last piece
+                #if reasons_set is not None:
+                #    row['reasons_set'] = str(reasons_set)
+                #else:
+                #    row['reasons_set'] = 'None'
                 print(row)
+                # df.join(df['reasons_set'].apply(pd.Series)) # last piece
                 df = df.append(row, ignore_index=True)
     start_date += delta
 print('==========')

@@ -150,7 +150,24 @@ while start_date <= end_date:
                         reasons_set.add(reason)
                 print(reasons_set)
                 row['reasons_set'] = str(reasons_set)
-                row['reasons_set'] = row['reasons_set'].replace('set()', 'None') 
+                row['reasons_set'] = row['reasons_set'].replace('set()', 'None')
+
+                #split_row = pd.DataFrame(row['reasons_set'].tolist())
+                #row = pd.append([row, split_row], axis=1)
+                
+                #row[['reason_1', 'reason_2', 'reason_3']] = row['reasons_set'].apply(lambda x: pd.Series(str(x).split(",")))
+                               
+                reasons_list = list(reasons_set)
+                
+                list_length = len(reasons_list)
+
+                for i in range(len(reasons_list)):
+                    print(reasons_list[i])
+                    row["reason_"+str(i)] = reasons_list[i]
+                
+                #for index in reasons_list:
+                #    row["reason_"+index] = reasons_list[index]
+                
                 #row[['reason_1','reason_2']]=row['reasons_set'].str.split(',',expand=True)
                 
                 #expand = row['reasons_set'].apply(pd.Series)

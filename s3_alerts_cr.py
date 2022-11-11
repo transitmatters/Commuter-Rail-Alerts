@@ -95,7 +95,7 @@ import pandas as pd
 
 a = pd.DataFrame()
 
-df = pd.DataFrame(columns=["line_name","alert_ids","full_text","start_time","end_time","reasons_set"])
+df = pd.DataFrame(columns=["line_name","alert_ids","full_text","start_time","end_time","reasons_set", "mins_delay"])
 
 # i < 0
 
@@ -164,6 +164,15 @@ while start_date <= end_date:
                 for i in range(len(reasons_list)):
                     print(reasons_list[i])
                     row["reason_"+str(i)] = reasons_list[i]
+            
+                for delay in row['full_text']:
+                    if 'minutes' in row['full_text']:
+                        delay = row['full_text']
+                        delay2 = delay.split(' minutes')[:-1]
+                        delay2 = str(delay2)
+                        delay3 = delay2.rsplit(' ',1)[1]
+                        delay3 = delay3.replace("']", '')
+                        row['mins_delay'] = delay3
                 
                 #for index in reasons_list:
                 #    row["reason_"+index] = reasons_list[index]
